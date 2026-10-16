@@ -1021,7 +1021,8 @@
       "routing": "Yerel yönlendirme",
       "network": "Ağ",
       "data": "Veri",
-      "about": "Hakkında"
+      "about": "Hakkında",
+      "headroom": "Headroom"
     },
     "appConfig": {
       "configDir": "Yapılandırma dizini"
@@ -4272,6 +4273,10 @@
     "port": "Dinleme portu",
     "saveAndRestart": "Hizmeti kaydedin ve yeniden başlatın",
     "clientHost": "Bağlantı adresi",
+    "frontPort": "Ön proxy bağlantı noktası",
+    "frontPortHelp": "İstemci yapılandırmalarına yazılan bağlantı noktası. Boş bırakılırsa dinleme bağlantı noktası kullanılır. İstemciler ile CC Switch arasında bir işlem servisi varsa (örneğin Headroom'un token sıkıştırması), o servisin bağlantı noktasını girin; istemci istekleri önce oradan geçer.",
+    "frontPortHint": "İstemcilerin bağlandığı bağlantı noktası. Boş: dinleme bağlantı noktası",
+    "frontPortInvalid": "1 ile 65535 arasında bir bağlantı noktası girin",
     "clientHostHint": "İstemcilerin bağlandığı yer. Boş: dinleme adresi",
     "clientHostInvalid": "İstemcilerin ulaşabileceği bir IP adresi veya ana bilgisayar adı girin",
     "clientHostHelp": "CC Switch ana bilgisayarı istemci yapılandırmalarına yazar (Claude Desktop'nin ağ geçidi URL'si dahil). Dinleme adresinden türetmek için boş bırakın. İstemciler bu makineye geridöngü yoluyla erişemediğinde bunu ayarlayın; WSL2 içindeki Claude Desktop oturumları (NAT modu): dinleme adresini 0.0.0.0 olarak ayarlayın ve WSL'nin ulaşabileceği bir Windows IP girin (vEthernet (WSL) bağdaştırıcı adresi gibi) ve bağlantı noktasının güvenlik duvarı üzerinden geçmesine izin verin.",
@@ -4754,6 +4759,47 @@
       "loading": "Kota kontrol ediliyor…",
       "refresh": "Kotayı yenile",
       "refreshAria": "{{login}} için kotayı yenileyin"
+    }
+  },
+  "headroom": {
+    "title": "Headroom sıkıştırma",
+    "help": "İstemciler ile CC Switch arasında Headroom çalıştırarak istek token'larını sıkıştırın. Etkinleştirildiğinde istemci istekleri önce Headroom'dan, ardından CC Switch'in proxy mantığından geçer.",
+    "routeModeRequired": "Headroom, istemcilerin yerel yönlendirme modunda olmasını gerektirir",
+    "routeModeNotice": "Headroom, CC Switch'in önünde yer aldığı için yalnızca yerel yönlendirme modunda bir konuma sahiptir. Önce \"Yerel yönlendirme\" bölümünde {{apps}} için yönlendirme modunu açın.",
+    "appSeparator": ", ",
+    "app": {
+      "claude": "Claude Code",
+      "codex": "Codex"
+    },
+    "enable": "Headroom sıkıştırmayı etkinleştir",
+    "enableHint": "Headroom'u başlatır ve istemcileri onun bağlantı noktasına yönlendirir",
+    "enabling": "Headroom başlatılıyor…",
+    "disabling": "Headroom durduruluyor…",
+    "port": "Headroom bağlantı noktası",
+    "portHelp": "Headroom'un dinlediği ve istemcilerin bağlandığı bağlantı noktası. Boş bırakılırsa istemciler doğrudan CC Switch'e bağlanır.",
+    "portHint": "İstemci istekleri önce bu bağlantı noktasından geçer",
+    "portInvalid": "1 ile 65535 arasında bir bağlantı noktası girin",
+    "component": "Headroom bileşeni",
+    "componentHelp": "Headroom, uv aracılığıyla bağımsız bir CLI aracı olarak kurulur. Güncelleme en son sürümü çeker.",
+    "version": "Sürüm {{version}}",
+    "notInstalled": "Kurulu değil",
+    "install": "Kur",
+    "update": "Güncelle",
+    "uninstall": "Kaldır",
+    "installFirst": "Önce Headroom bileşenini kurun",
+    "loadingSettings": "Ayarlar yükleniyor…",
+    "settingsUnavailable": "Headroom ayarları okunamadı. Servisin çalıştığından emin olun.",
+    "fieldCount": "{{count}} alan",
+    "changedCount": "{{count}} değişti",
+    "apply": "Uygula",
+    "applyAndRestart": "Uygula ve yeniden başlat",
+    "toast": {
+      "started": "Headroom başlatıldı",
+      "stopped": "Headroom durduruldu",
+      "installed": "Headroom kuruldu",
+      "updated": "Headroom güncellendi",
+      "uninstalled": "Headroom kaldırıldı",
+      "saved": "Ayarlar kaydedildi"
     }
   }
 }

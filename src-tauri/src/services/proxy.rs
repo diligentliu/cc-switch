@@ -267,6 +267,9 @@ impl ProxyService {
         }
 
         let host = crate::settings::get_proxy_client_host().unwrap_or(config.listen_address);
+        let listen_port = crate::settings::get_proxy_front_port()
+            .filter(|front| crate::services::headroom::HeadroomService::is_listening(*front))
+            .unwrap_or(listen_port);
         let proxy_url = proxy_origin(&host, listen_port);
         let proxy_codex_base_url = format!("{proxy_url}/v1");
         Ok((proxy_url, proxy_codex_base_url))

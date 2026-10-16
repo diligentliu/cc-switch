@@ -8,6 +8,7 @@ use std::sync::Arc;
 pub struct AppState {
     pub db: Arc<Database>,
     pub proxy_service: ProxyService,
+    pub headroom_service: crate::services::headroom::HeadroomService,
     pub usage_cache: Arc<UsageCache>,
     // 内部已使用细粒度锁（accounts/access_tokens/refresh_locks），所有方法均为
     // `&self`，无需外层 RwLock；避免持有粗粒度锁跨网络刷新导致的连锁阻塞。
@@ -24,6 +25,7 @@ impl AppState {
         Self {
             db,
             proxy_service,
+            headroom_service: crate::services::headroom::HeadroomService::new(),
             usage_cache: Arc::new(UsageCache::new()),
             codex_oauth_manager,
         }

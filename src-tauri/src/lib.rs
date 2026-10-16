@@ -1650,6 +1650,18 @@ pub fn run() {
             commands::update_global_proxy_config,
             commands::get_proxy_client_host,
             commands::set_proxy_client_host,
+            commands::get_proxy_front_port,
+            commands::set_proxy_front_port,
+            commands::headroom_status,
+            commands::headroom_is_installed,
+            commands::headroom_install,
+            commands::headroom_update,
+            commands::headroom_uninstall,
+            commands::headroom_start,
+            commands::headroom_stop,
+            commands::headroom_restart,
+            commands::headroom_settings_schema,
+            commands::headroom_save_settings,
             commands::get_proxy_config_for_app,
             commands::update_proxy_config_for_app,
             commands::get_pricing_model_source,
@@ -1929,8 +1941,14 @@ pub fn run() {
 /// 客户端不能一直指着代理：开机自启默认关闭，CC Switch 一关客户端就连不上了。
 pub async fn cleanup_before_exit(app_handle: &tauri::AppHandle) {
     if let Some(state) = app_handle.try_state::<store::AppState>() {
+        let port = crate::settings::get_proxy_front_port().unwrap_or(0);
         crate::mode::controller::detach_all(state.inner()).await;
-        log::info!("退出清理完成：客户端已指回直连，代理已停止");
+        if port > 0 {
+            if let Err(error) = state.headroom_service.stop_on_port(port).await {
+                log::warn!("退出时停止 Headroom 失败: {error}");
+            }
+        }
+        log::info!("退出清理完成：客户端已指回直连，代理与 Headroom 已停止");
     }
 }
 

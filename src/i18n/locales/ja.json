@@ -1058,7 +1058,8 @@
       "routing": "ローカルルーティング",
       "network": "ネットワーク",
       "data": "データ",
-      "about": "情報"
+      "about": "情報",
+      "headroom": "Headroom"
     },
     "appConfig": {
       "configDir": "設定ディレクトリ"
@@ -4371,6 +4372,10 @@
     "port": "待ち受けポート",
     "saveAndRestart": "保存してサービスを再起動",
     "clientHost": "接続先アドレス",
+    "frontPort": "フロントプロキシポート",
+    "frontPortHelp": "クライアント設定に書き込まれるポートです。空欄の場合はリッスンポートを使用します。クライアントと CC Switch の間に処理サービス（例：Headroom のトークン圧縮）を挟む場合は、そのサービスのポートを入力すると、クライアントのリクエストが先にそこを経由します。",
+    "frontPortHint": "クライアントが接続するポート。空欄はリッスンポート",
+    "frontPortInvalid": "1〜65535 のポート番号を入力してください",
     "clientHostHint": "クライアントの接続先。空欄なら待ち受けアドレス",
     "clientHostInvalid": "クライアントから到達できる IP アドレスまたはホスト名を入力してください",
     "clientHostHelp": "CC Switch がクライアント設定（Claude Desktop のゲートウェイ URL を含む）に書き込むホストです。空欄の場合は待ち受けアドレスから決まります。クライアントがループバックでこのマシンに届かない場合に設定します。例：WSL2（NAT モード）内の Claude Desktop セッションでは、待ち受けアドレスを 0.0.0.0 にし、WSL から到達できる Windows の IP（vEthernet (WSL) アダプターのアドレスなど）を入力し、ファイアウォールでポートを許可してください。",
@@ -4851,6 +4856,47 @@
       "loading": "残量を確認中…",
       "refresh": "残量を更新",
       "refreshAria": "{{login}} の残量を更新"
+    }
+  },
+  "headroom": {
+    "title": "Headroom 圧縮",
+    "help": "クライアントと CC Switch の間で Headroom を実行し、リクエストのトークンを圧縮します。有効にすると、クライアントのリクエストはまず Headroom を経由し、その後 CC Switch のプロキシ処理に入ります。",
+    "routeModeRequired": "Headroom にはクライアントのローカルルーティングモードが必要です",
+    "routeModeNotice": "Headroom は CC Switch の前段にあるため、ローカルルーティングモードでのみ位置を持ちます。先に「ローカルルーティング」で {{apps}} のルーティングモードを有効にしてください。",
+    "appSeparator": "、",
+    "app": {
+      "claude": "Claude Code",
+      "codex": "Codex"
+    },
+    "enable": "Headroom 圧縮を有効にする",
+    "enableHint": "Headroom を起動し、クライアントをそのポートに向けます",
+    "enabling": "Headroom を起動しています…",
+    "disabling": "Headroom を停止しています…",
+    "port": "Headroom ポート",
+    "portHelp": "Headroom が待ち受けるポートです。クライアントはここに接続します。空欄の場合、クライアントは CC Switch に直接接続します。",
+    "portHint": "クライアントのリクエストは先にこのポートを経由します",
+    "portInvalid": "1〜65535 のポート番号を入力してください",
+    "component": "Headroom コンポーネント",
+    "componentHelp": "Headroom は uv を通じて独立した CLI ツールとしてインストールされます。更新すると最新リリースを取得します。",
+    "version": "バージョン {{version}}",
+    "notInstalled": "未インストール",
+    "install": "インストール",
+    "update": "更新",
+    "uninstall": "アンインストール",
+    "installFirst": "先に Headroom コンポーネントをインストールしてください",
+    "loadingSettings": "設定を読み込み中…",
+    "settingsUnavailable": "Headroom の設定を読み取れませんでした。サービスが実行中か確認してください。",
+    "fieldCount": "{{count}} 項目",
+    "changedCount": "{{count}} 件変更",
+    "apply": "適用",
+    "applyAndRestart": "適用して再起動",
+    "toast": {
+      "started": "Headroom を起動しました",
+      "stopped": "Headroom を停止しました",
+      "installed": "Headroom をインストールしました",
+      "updated": "Headroom を更新しました",
+      "uninstalled": "Headroom をアンインストールしました",
+      "saved": "設定を保存しました"
     }
   }
 }

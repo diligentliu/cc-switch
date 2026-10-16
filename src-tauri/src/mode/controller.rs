@@ -962,6 +962,14 @@ async fn stop_server_if_unused(state: &AppState) {
             log::warn!("停止代理服务失败: {error}");
         }
     }
+    // Headroom only has a place while something routes through CC Switch; leaving it
+    // running would keep a port bound and clients pointed at a service nothing feeds.
+    let front_port = crate::settings::get_proxy_front_port().unwrap_or(0);
+    if front_port > 0 {
+        if let Err(error) = state.headroom_service.stop_on_port(front_port).await {
+            log::warn!("停止 Headroom 失败: {error}");
+        }
+    }
 }
 
 /// 「关闭本地路由」：全部退回直连，再停掉代理服务。

@@ -804,6 +804,9 @@ impl Database {
             Err(_) => fallback(),
         };
         let host = crate::settings::get_proxy_client_host().unwrap_or(listen_address);
+        let port = crate::settings::get_proxy_front_port()
+            .filter(|front| crate::services::headroom::HeadroomService::is_listening(*front))
+            .unwrap_or(port);
         (host, port)
     }
 

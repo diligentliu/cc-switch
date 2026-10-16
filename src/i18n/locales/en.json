@@ -1058,7 +1058,8 @@
       "routing": "Local routing",
       "network": "Network",
       "data": "Data",
-      "about": "About"
+      "about": "About",
+      "headroom": "Headroom"
     },
     "appConfig": {
       "configDir": "Config directory"
@@ -4371,6 +4372,10 @@
     "port": "Listen port",
     "saveAndRestart": "Save and restart service",
     "clientHost": "Connection address",
+    "frontPort": "Front proxy port",
+    "frontPortHelp": "The port written into client configs. Leave it empty to use the listen port. When a processing service sits between clients and CC Switch (for example Headroom's token compression), enter that service's port here so client requests pass through it first.",
+    "frontPortHint": "Where clients connect. Empty: the listen port",
+    "frontPortInvalid": "Enter a port between 1 and 65535",
     "clientHostHint": "Where clients connect. Empty: the listen address",
     "clientHostInvalid": "Enter an IP address or hostname that clients can reach",
     "clientHostHelp": "The host CC Switch writes into client configs (including Claude Desktop's gateway URL). Leave it empty to derive it from the listen address. Set it when clients can't reach this machine through loopback, e.g. Claude Desktop sessions inside WSL2 (NAT mode): set the listen address to 0.0.0.0 and enter a Windows IP that WSL can reach (such as the vEthernet (WSL) adapter address), and allow the port through the firewall.",
@@ -4851,6 +4856,47 @@
       "loading": "Checking quota…",
       "refresh": "Refresh quota",
       "refreshAria": "Refresh quota for {{login}}"
+    }
+  },
+  "headroom": {
+    "title": "Headroom compression",
+    "help": "Run Headroom between your clients and CC Switch to compress request tokens. When enabled, client requests pass through Headroom first, then into CC Switch's proxy logic.",
+    "routeModeRequired": "Headroom needs clients in local routing mode",
+    "routeModeNotice": "Headroom sits in front of CC Switch, so it only has a place in local routing mode. Turn on routing mode for {{apps}} in Local routing first.",
+    "appSeparator": ", ",
+    "app": {
+      "claude": "Claude Code",
+      "codex": "Codex"
+    },
+    "enable": "Enable Headroom compression",
+    "enableHint": "Starts Headroom and points clients at its port",
+    "enabling": "Starting Headroom…",
+    "disabling": "Stopping Headroom…",
+    "port": "Headroom port",
+    "portHelp": "The port Headroom listens on, which clients connect to. Leave it empty to point clients directly at CC Switch.",
+    "portHint": "Client requests pass through this port first",
+    "portInvalid": "Enter a port between 1 and 65535",
+    "component": "Headroom component",
+    "componentHelp": "Headroom installs as a standalone CLI tool through uv. Updating pulls the latest release.",
+    "version": "Version {{version}}",
+    "notInstalled": "Not installed",
+    "install": "Install",
+    "update": "Update",
+    "uninstall": "Uninstall",
+    "installFirst": "Install the Headroom component first",
+    "loadingSettings": "Loading settings…",
+    "settingsUnavailable": "Could not read Headroom settings. Make sure the service is running.",
+    "fieldCount": "{{count}} fields",
+    "changedCount": "{{count}} changed",
+    "apply": "Apply",
+    "applyAndRestart": "Apply & restart",
+    "toast": {
+      "started": "Headroom started",
+      "stopped": "Headroom stopped",
+      "installed": "Headroom installed",
+      "updated": "Headroom updated",
+      "uninstalled": "Headroom uninstalled",
+      "saved": "Settings saved"
     }
   }
 }

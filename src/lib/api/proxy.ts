@@ -142,6 +142,16 @@ export const proxyApi = {
     return invoke("set_proxy_client_host", { host });
   },
 
+  // 前端代理端口：客户端实际连接的端口，空表示按监听端口
+  async getProxyFrontPort(): Promise<number | null> {
+    return invoke("get_proxy_front_port");
+  },
+
+  // 保存前端代理端口，并按新地址重写接上路由的客户端
+  async setProxyFrontPort(port: number | null): Promise<void> {
+    return invoke("set_proxy_front_port", { port });
+  },
+
   // 获取指定应用的代理配置
   async getProxyConfigForApp(appType: string): Promise<AppProxyConfig> {
     return invoke("get_proxy_config_for_app", { appType });

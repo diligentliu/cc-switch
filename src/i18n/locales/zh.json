@@ -1058,7 +1058,8 @@
       "routing": "本地路由",
       "network": "网络",
       "data": "数据",
-      "about": "关于"
+      "about": "关于",
+      "headroom": "Headroom 压缩"
     },
     "appConfig": {
       "configDir": "配置目录"
@@ -4371,6 +4372,10 @@
     "port": "监听端口",
     "saveAndRestart": "保存并重启服务",
     "clientHost": "连接地址",
+    "frontPort": "前端代理端口",
+    "frontPortHelp": "写进客户端配置的端口。留空时用监听端口。在客户端与 CC Switch 之间串接了处理服务（例如 Headroom 的 token 压缩服务）时，填写该服务的端口，客户端请求会先经过它。",
+    "frontPortHint": "客户端连路由用的端口；留空按监听端口",
+    "frontPortInvalid": "请输入 1-65535 之间的端口号",
     "clientHostHint": "客户端连路由用的地址；留空按监听地址",
     "clientHostInvalid": "请输入客户端能访问到的 IP 地址或主机名",
     "clientHostHelp": "CC Switch 写进客户端配置的代理主机（含 Claude Desktop 的网关地址）。留空时按监听地址推导。客户端无法通过本机回环访问时填写，例如 WSL2（NAT 模式）里的 Claude Desktop 会话：把监听地址设为 0.0.0.0，在这里填 WSL 能访问到的 Windows IP（如 vEthernet (WSL) 网卡的地址），并在防火墙中放行端口。",
@@ -4851,6 +4856,47 @@
       "loading": "正在查询额度…",
       "refresh": "刷新额度",
       "refreshAria": "刷新 {{login}} 的额度"
+    }
+  },
+  "headroom": {
+    "title": "Headroom 压缩",
+    "help": "在客户端与 CC Switch 之间运行 Headroom，对请求做 token 压缩。开启后客户端请求先经过 Headroom，再进入 CC Switch 的代理逻辑。",
+    "routeModeRequired": "Headroom 需要客户端走本地路由模式",
+    "routeModeNotice": "Headroom 位于 CC Switch 之前，只有在本地路由模式下才有它的位置。请在「本地路由」里为 {{apps}} 打开路由模式后再启用。",
+    "appSeparator": "、",
+    "app": {
+      "claude": "Claude Code",
+      "codex": "Codex"
+    },
+    "enable": "启用 Headroom 压缩服务",
+    "enableHint": "开启后自动启动 Headroom 并把客户端指向它的端口",
+    "enabling": "正在启动 Headroom…",
+    "disabling": "正在停止 Headroom…",
+    "port": "Headroom 端口",
+    "portHelp": "Headroom 监听的端口，客户端会连接到这里。留空则客户端直接连 CC Switch。",
+    "portHint": "客户端的请求会先经过这个端口",
+    "portInvalid": "请输入 1-65535 之间的端口号",
+    "component": "Headroom 组件",
+    "componentHelp": "Headroom 通过 uv 安装为独立命令行工具。更新会拉取最新版本。",
+    "version": "版本 {{version}}",
+    "notInstalled": "尚未安装",
+    "install": "安装",
+    "update": "更新",
+    "uninstall": "卸载",
+    "installFirst": "请先安装 Headroom 组件",
+    "loadingSettings": "正在加载设置…",
+    "settingsUnavailable": "无法读取 Headroom 设置，请确认服务正在运行。",
+    "fieldCount": "{{count}} 项",
+    "changedCount": "{{count}} 项已修改",
+    "apply": "应用",
+    "applyAndRestart": "应用并重启",
+    "toast": {
+      "started": "Headroom 已启动",
+      "stopped": "Headroom 已停止",
+      "installed": "Headroom 安装完成",
+      "updated": "Headroom 已更新",
+      "uninstalled": "Headroom 已卸载",
+      "saved": "设置已保存"
     }
   }
 }

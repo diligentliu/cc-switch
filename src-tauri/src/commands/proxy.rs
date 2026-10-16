@@ -292,6 +292,22 @@ pub(crate) async fn save_proxy_client_host(state: &AppState, host: &str) -> Resu
     resync_proxy_clients(state).await
 }
 
+/// 前端代理端口：客户端实际连接的端口，留空时用监听端口。
+#[tauri::command]
+pub async fn get_proxy_front_port() -> Result<Option<u16>, String> {
+    Ok(crate::settings::get_proxy_front_port())
+}
+
+/// 保存前端代理端口，再按新地址重写接上路由的客户端，不用重启服务。
+#[tauri::command]
+pub async fn set_proxy_front_port(
+    state: tauri::State<'_, AppState>,
+    port: Option<u16>,
+) -> Result<(), String> {
+    crate::settings::set_proxy_front_port(port.unwrap_or(0)).map_err(|e| e.to_string())?;
+    resync_proxy_clients(state.inner()).await
+}
+
 /// 按当前的代理地址重写接上路由的客户端（含 Claude Desktop 的路由模式）。
 async fn resync_proxy_clients(state: &AppState) -> Result<(), String> {
     crate::mode::controller::resync_routes(state).await

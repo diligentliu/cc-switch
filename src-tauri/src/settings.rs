@@ -555,6 +555,11 @@ pub struct AppSettings {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub proxy_client_host: Option<String>,
 
+    /// Port written to clients, paired with `proxy_client_host`; unset falls back to the listen port.
+    /// Set it when a proxy sits in front of CC Switch, e.g. Headroom on 8787.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub proxy_front_port: Option<u16>,
+
     // ===== Skill 同步设置 =====
     /// Skill 同步方式：auto（默认，优先 symlink）、symlink、copy
     #[serde(default)]
@@ -661,6 +666,7 @@ impl Default for AppSettings {
             current_provider_openclaw: None,
             current_provider_hermes: None,
             proxy_client_host: None,
+            proxy_front_port: None,
             skill_sync_method: SyncMethod::default(),
             skill_storage_location: SkillStorageLocation::default(),
             webdav_sync: None,
@@ -1042,6 +1048,16 @@ pub fn set_proxy_client_host(host: &str) -> Result<(), AppError> {
     let host = host.trim();
     mutate_settings(|settings| {
         settings.proxy_client_host = (!host.is_empty()).then(|| host.to_string());
+    })
+}
+
+pub fn get_proxy_front_port() -> Option<u16> {
+    get_settings().proxy_front_port.filter(|port| *port > 0)
+}
+
+pub fn set_proxy_front_port(port: u16) -> Result<(), AppError> {
+    mutate_settings(|settings| {
+        settings.proxy_front_port = (port > 0).then_some(port);
     })
 }
 
