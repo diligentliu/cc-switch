@@ -439,6 +439,9 @@ jobs:
     name: Bundle macOS release
     runs-on: macos-14
     needs: macos-binary
+    env:
+      # 空字符串表示没有配 Apple 证书：跳过签名相关步骤，产物用 adhoc 签名
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
 
     steps:
       - name: Checkout
@@ -494,7 +497,7 @@ jobs:
           password: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
       - name: Import Apple signing certificate
-        if: ${{ secrets.APPLE_CERTIFICATE != '' }}
+        if: ${{ env.APPLE_CERTIFICATE != '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -715,7 +718,7 @@ jobs:
           done
 
       - name: Verify macOS code signing and notarization
-        if: ${{ secrets.APPLE_CERTIFICATE != '' }}
+        if: ${{ env.APPLE_CERTIFICATE != '' }}
         shell: bash
         run: |
           set -euo pipefail
