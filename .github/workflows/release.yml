@@ -971,8 +971,7 @@ jobs:
 
             > `.tar.gz` 为 Tauri updater 自动更新专用，无需手动下载。
 
-            ---
-            macOS 版本已通过 Apple 代码签名和公证，可直接安装使用。
+            > macOS 包包含 Tauri updater 签名。Apple 代码签名与公证取决于发布仓库是否配置相应证书。
           files: release-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
