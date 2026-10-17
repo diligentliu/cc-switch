@@ -494,6 +494,7 @@ jobs:
           password: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
       - name: Import Apple signing certificate
+        if: ${{ secrets.APPLE_CERTIFICATE != '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -714,6 +715,7 @@ jobs:
           done
 
       - name: Verify macOS code signing and notarization
+        if: ${{ secrets.APPLE_CERTIFICATE != '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -793,7 +795,8 @@ jobs:
     needs: [release, macos-release]
     # 只有推 tag 才发布。手动触发时也能选 tag 作为运行版本，单看 ref_type 会把干跑当成正式发布，
     # 覆盖已发布 release 的正文和安装包
-    if: github.event_name == 'push' && github.ref_type == 'tag'
+    # 手动触发时也发布：fork 上 tag 推送不会触发 workflow，dispatch 是唯一能走到这里的路径。
+    if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
     steps:
