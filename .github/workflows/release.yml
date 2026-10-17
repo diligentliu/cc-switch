@@ -627,9 +627,13 @@ jobs:
             exit 1
           fi
 
-          # Staple notarization ticket to .app (Tauri already notarized it)
-          xcrun stapler staple "$APP_PATH"
-          echo "✅ .app stapled"
+          # Staple only when the app was notarized with an Apple certificate.
+          if [ -n "${APPLE_CERTIFICATE:-}" ]; then
+            xcrun stapler staple "$APP_PATH"
+            echo "✅ .app stapled"
+          else
+            echo "No Apple certificate configured — skipping .app stapling"
+          fi
 
           # 1) Collect .tar.gz (updater artifact)
           NEW_TAR_GZ="CC-Switch-${VERSION}-macOS.tar.gz"
@@ -654,25 +658,24 @@ jobs:
           mkdir -p "$DMG_STAGE_DIR"
           ditto "$APP_PATH" "$DMG_STAGE_DIR/CC Switch.app"
 
-          # 有签名身份才让 create-dmg 签名；没有就出一个未签名 DMG
-          sign_args=()
+          dmg_args=(
+            --volname "CC Switch"
+            --background "src-tauri/icons/dmg-background.png"
+            --window-size 660 400
+            --window-pos 200 120
+            --icon-size 80
+            --icon "CC Switch.app" 180 220
+            --hide-extension "CC Switch.app"
+            --app-drop-link 480 220
+            --no-internet-enable
+            "release-assets/$NEW_DMG"
+            "$DMG_STAGE_DIR"
+          )
           if [ -n "${APPLE_SIGNING_IDENTITY:-}" ]; then
-            sign_args=(--codesign "$APPLE_SIGNING_IDENTITY")
+            dmg_args=(--codesign "$APPLE_SIGNING_IDENTITY" "${dmg_args[@]}")
           fi
 
-          create-dmg \
-            --volname "CC Switch" \
-            --background "src-tauri/icons/dmg-background.png" \
-            --window-size 660 400 \
-            --window-pos 200 120 \
-            --icon-size 80 \
-            --icon "CC Switch.app" 180 220 \
-            --hide-extension "CC Switch.app" \
-            --app-drop-link 480 220 \
-            "${sign_args[@]}" \
-            --no-internet-enable \
-            "release-assets/$NEW_DMG" \
-            "$DMG_STAGE_DIR"
+          create-dmg "${dmg_args[@]}"
 
           rm -rf "$DMG_STAGE_DIR"
           echo "✅ Styled DMG created: $NEW_DMG"
